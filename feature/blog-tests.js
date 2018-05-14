@@ -36,6 +36,17 @@ function generateBlogAuthor() {
     return authors[Math.floor(Math.random() * authors.length)];
 }
 
+function generateBlogContent() {
+    const contents = [
+    'We\'ll throw some old gray clouds in here just sneaking around and having fun. Everybody\'s different. Trees are different. Let them all be individuals. We don\'t have to be concerned about it.',
+    'A little happy sunlight shining through there. Each highlight must have it\'s own private shadow. You can do anything here. So don\'t worry about it.',
+    'Let\'s make a happy little mountain now. That\'s a son of a gun of a cloud. Just use the old one inch brush.',
+    'You could sit here for weeks with your one hair brush trying to do that - or you could do it with one stroke with an almighty brush. These trees are so much fun.',
+    'I get started on them and I have a hard time stopping. Clouds are free. They just float around the sky all day and have fun. Almost everything is going to happen for you automatically - you don\'t have to spend any time working or worrying. In your imagination you can go anywhere you want.'];
+    return contents[Math.floor(Math.random() * contents.length)];
+}
+
+
 
 
 
