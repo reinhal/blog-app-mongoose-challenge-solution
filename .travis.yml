@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: ALcomYwdXg8ArGEnXY/p3AHKK3or13d6Wc+odXPvUlyZR6PUIF4OSetV6L+/gAqeynBSvnp3Lm1ASX2WafrrqiN4fiy480OoLXl/YxPNXMcJ3WDYoFT15ffT2uoIIDOIHSssMetU8pwwd7e2Blb6AVVgFx9+WIwHe8o7jCvN4MEuDajRjral8kXX1s2rJHVLp6VID6MBahCi0C59SH7a8aXNRsELGaQxfnaJp9TItbIxmN3hFYY2im1z28WsVT9YRhS4IpT7pQ2ixDdSzFOhQsSzz9Lo9ZC8U5CV2eCr5zRqBrRaWC+YQ0WdoA0yXDrZkfRagfWmwuijeOfbshvdKNWSlDcNA2JArxy5a2KDFxhO/8xM5GNWQE7XP8W3OsUUYElBhUH9+emCAjneqhgjmJBBZvU4y1JTFaVZ9JEKIKf9MkUNv89E0MIGodTJnZSLapMh9TckAEPRyw49MSLYPOdxuncHT0D174l6t4XuVdz2bCK3e1/9LYnjPiBll/oP0dKEfeW5hnZkOkzr2hqRhQDelB8FEv0zdQvpO21ttmLrCNU2x5wQUJW7TqFSl+WKt6+sy8utVi2AJQCVNQW/3eGrBWWH4zdRjOZ/14pJJl1p04R9IAtBicy5yEJQ5grmvW3Tg6uaDNBqs0gEnKFuhpvlyRb7+58nmmE7R46j6AU=
+  app: immense-plains-77194
+  on:
+    repo: reinhal/blog-app-mongoose-challenge-solution
