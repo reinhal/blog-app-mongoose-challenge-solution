@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const chaiHTTP = require('chaiHTTP');
+const chaiHTTP = require('chai-http');
 const faker = require('faker');
 const mongoose = require('mongoose');
 
@@ -32,7 +32,26 @@ function generateBlogTitle() {
 
 function generateBlogAuthor() {
     const authors = [
-    'Bob Street', 'Carla Branden', 'John Fresh', 'Harriet Paths', 'Pat Idunno'];
+    {
+    firstName:'Bob',
+    lastName: 'Street'
+    }, 
+    {
+    firstName: 'Carla',
+    lastName: 'Branden',
+    }, 
+    {
+    firstName:'John',
+    lastName: 'Fresh'
+    }, 
+    {
+    firstName: 'Harriet',
+    lastName: 'Paths'
+    },
+    {
+    firstName: 'Pat',
+    lastName: 'Idunno'
+    }];
     return authors[Math.floor(Math.random() * authors.length)];
 }
 
@@ -86,11 +105,11 @@ describe('Blog API source', function() {
             .then(function(_res) {
                 res = _res;
                 expect(res).to.have.status(200);
-                expect(res.body.posts).to.have.lengthOf.at.least(1);
+                expect(res.body).to.have.lengthOf.at.least(1);
                 return BlogPost.count();
             })
             .then (function(count) {
-                expect(res.body.posts).to.have.lengthOf(count);
+                expect(res.body).to.have.lengthOf(count);
             });
         });
 
@@ -102,21 +121,21 @@ describe('Blog API source', function() {
             .then(function(res) {
                 expect(res).to.have.status(200);
                 expect(res).to.be.json;
-                expect(res.body.posts).to.be.a('array');
-                expect(res.body.posts).to.have.lengthOf.at.least(1);
+                expect(res.body).to.be.a('array');
+                expect(res.body).to.have.lengthOf.at.least(1);
 
-                res.body.restaurants.forEach(function(posts) {
+                res.body.forEach(function(posts) {
                     expect(posts).to.be.a('object');
                     expect(posts).to.be.include.keys(
-                        'title', 'author', 'content');
+                        'id','title', 'author', 'content');
                 });
-                resBlogPost =res.body.posts[0];
+                resBlogPost =res.body[0];
                 return BlogPost.findById(resBlogPost.id);
             })
             .then(function(posts) {
                 expect(resBlogPost.id).to.equal(posts.id);
                 expect(resBlogPost.title).to.equal(posts.title);
-                expect(resBlogPost.author).to.equal(posts.author);
+                expect(resBlogPost.author).to.equal(posts.author.firstName + ' ' + posts.author.lastName);
                 expect(resBlogPost.content).to.equal(posts.content);
             });
         });
@@ -138,21 +157,26 @@ describe('Blog API source', function() {
                     'title', 'author', 'content');
                     expect(res.body.id).to.not.be.null;
                     expect(res.body.title).to.equal(newBlogPost.title);
-                    expect(res.body.author).to.equal(newBlogPost.author);
+                    expect(res.body.author).to.equal(newBlogPost.author.firstName + ' ' + newBlogPost.author.lastName);
                     expect(res.body.content).to.equal(newBlogPost.content); 
+                    return res.body;
             })
-            .then(function(posts) {
-                expect(posts.title).to.equal(newBlogPost.title);
-                expect(posts.author).to.equal(newBlogPost.author);
-                expect(posts.content).to.equal(newBlogPost.content);
+            .then(function(BlogPost) {
+                console.log(newBlogPost, BlogPost);
+                expect(BlogPost.title).to.equal(newBlogPost.title);
+                expect(BlogPost.author).to.equal(newBlogPost.author.firstName + ' ' + newBlogPost.author.lastName);
+                expect(BlogPost.content).to.equal(newBlogPost.content);
             });
         });
 
         describe('PUT endpoint', function() {
             it('should update the fields that are sent over', function() {
                 const updatePost = {
-                    title = 'Brand New Post',
-                    author = 'Some Person'
+                    title: 'Brand New Post',
+                    author: {
+                        firstName: 'Some',
+                        lastName: 'Person'
+                    }
                 };
 
                 return BlogPost
@@ -171,7 +195,7 @@ describe('Blog API source', function() {
                     })
                     .then(function(posts) {
                         expect(posts.title).to.equal(updatePost.title);
-                        expect(posts.author).to.equal(updatePost.author);
+                        expect(posts.author.firstName + ' ' + posts.author.lastName).to.equal(updatePost.author.firstName + ' ' + updatePost.author.lastName);
                     });
             });
         });
